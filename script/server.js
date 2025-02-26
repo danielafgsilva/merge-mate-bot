@@ -1,33 +1,18 @@
-require("dotenv").config();
-const express = require("express");
-const axios = require("axios");
+const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-    res.send("Slack Bot is Running!");
-});
-
-app.get("/slack/oauth/callback", async (req, res) => {
-    const code = req.query.code;
-    if (!code) return res.status(400).send("No code provided");
-
-    try {
-        const response = await axios.post("https://slack.com/api/oauth.v2.access", null, {
-            params: {
-                client_id: process.env.CLIENT_ID,
-                client_secret: process.env.CLIENT_SECRET,
-                code,
-            },
-        });
-
-        if (!response.data.ok) return res.status(400).send("OAuth failed: " + response.data.error);
-
-        res.send("Success! Your Slack app is authorized.");
-    } catch (error) {
-        res.status(500).send("Error fetching OAuth token.");
+app.post('/slack/events', (req, res) => {
+    if (req.body.type === 'url_verification') {
+        return res.status(200).send(req.body.challenge); // Responde com o challenge
     }
+    console.log('Evento recebido:', req.body);
+    res.sendStatus(200);
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor a correr em http://localhost:${PORT}`);
+});
