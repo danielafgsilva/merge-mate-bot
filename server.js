@@ -12,8 +12,17 @@ app.post('/slack/events', (req, res) => {
     res.sendStatus(200);
 });
 
-app.post('/slack/command', (req, res) => {
-    res.send('Received command!');
+app.post('/slack/command', async (req, res) => {
+    const { command, text, user_id } = req.body;
+
+    if (command === '/mergemate') {
+        return res.json({
+            response_type: 'in_channel', // ou 'ephemeral' para visível apenas ao utilizador
+            text: `👋 Olá <@${user_id}>, recebi o teu comando! 🚀`
+        });
+    }
+
+    return res.status(400).send('Comando inválido.');
 });
 
 
