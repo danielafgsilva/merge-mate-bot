@@ -16,14 +16,17 @@ app.post('/slack/command', async (req, res) => {
     const { command, text, user_id } = req.body;
 
     if (command === '/mergemate') {
-        return res.json({
-            response_type: 'in_channel', // ou 'ephemeral' para visível apenas ao utilizador
-            text: `👋 Olá <@${user_id}>, recebi o teu comando! 🚀`
-        });
+        if (text === 'connect github') {
+            return res.json({
+                response_type: 'ephemeral',
+                text: `🔗 <@${user_id}>, estou a conectar ao GitHub!`
+            });
+        }
     }
 
     return res.status(400).send('Comando inválido.');
 });
+
 
 
 const PORT = 3000;
