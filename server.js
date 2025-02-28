@@ -12,6 +12,11 @@ app.post('/slack/events', (req, res) => {
     res.sendStatus(200);
 });
 
+app.post('/slack/command', (req, res) => {
+    res.send('Received command!');
+});
+
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Servidor a correr em http://localhost:${PORT}`);
