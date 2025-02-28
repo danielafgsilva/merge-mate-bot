@@ -28,6 +28,24 @@ app.post('/slack/command', async (req, res) => {
 });
 
 
+const axios = require('axios');
+
+async function connectGitHub(userToken) {
+    try {
+        const response = await axios.get('https://api.github.com/user', {
+            headers: {
+                Authorization: `token ${userToken}`
+            }
+        });
+
+        console.log('Connected to GitHub:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('GitHub connection error:', error.response ? error.response.data : error);
+        throw error;
+    }
+}
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
