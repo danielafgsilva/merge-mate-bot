@@ -160,3 +160,32 @@ try {
     logger.error('Error occurred:', error);
     // ...
 }
+
+const { App } = require('@slack/bolt');
+const { SocketModeReceiver } = require('@slack/bolt');
+
+const app = new App({
+  token: process.env.BOT_TOKEN, // Your Bot Token
+  signingSecret: process.env.SIGNING_SECRET,
+  socketMode: true,
+  appToken: process.env.SLACK_APP_TOKEN, // Your App-Level Token
+});
+
+const receiver = new SocketModeReceiver({
+  appToken: process.env.SLACK_APP_TOKEN,
+});
+
+(async () => {
+  await app.start();
+  console.log('⚡️ Bolt app is running!');
+})();
+
+app.get('/slack/oauth_redirect', async (req, res) => {
+    const code = req.query.code;
+    // Exchange code for token using Slack API
+    // ...
+    // Store the token
+    // ...
+    // Redirect user to success page
+    res.send('Installation successful!');
+  });
