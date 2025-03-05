@@ -6,14 +6,19 @@ const app = express();
 
 app.use(bodyParser.json());
 
-// Slack Events (URL verification and events)
-app.post('/slack/events', handleSlackEvents);
-
 // Slack Commands
 app.post('/slack/command', handleSlackCommands);
 
 // GitHub Webhook
 app.post('/github/webhook', handleGitHubWebhook);
+
+app.post('/slack/events', async (req, res) => {
+    try {
+        await handleSlackEvents(req, res);
+    } catch (error) {
+        console.error('Error handling Slack events:', error);
+        res.status(500).send('Internal server error.');
+    }
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
