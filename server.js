@@ -18,7 +18,8 @@ app.post('/slack/events', async (req, res) => {
     } catch (error) {
         console.error('Error handling Slack events:', error);
         res.status(500).send('Internal server error.');
-    }
+        }
+    });
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
