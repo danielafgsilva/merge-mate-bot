@@ -32,7 +32,7 @@ Before running this project, ensure you have:
    CLIENT_ID=your_slack_client_id
    CLIENT_SECRET=your_slack_client_secret
    GITHUB_ACCESS_TOKEN=your_github_token
-   PORT=3000
+   PORT=3001
    ```
 
 4. Start the server:
