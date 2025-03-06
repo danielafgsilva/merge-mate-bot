@@ -27,6 +27,11 @@ const handleSlackEvents = async (req, res) => {
 const handleSlackCommands = async (req, res) => {
   const { command, text, user_id } = req.body;
 
+  res.json({
+    response_type: "ephemeral",
+    text: "Processing your request... 🔄",
+  });
+
   if (command === "/mergemate") {
     if (text === "connect github") {
       return res.json({
