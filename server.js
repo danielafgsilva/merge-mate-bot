@@ -15,6 +15,10 @@ app.post('/github/webhook', handleGitHubWebhook);
 
 // Slack Events
 app.post('/slack/events', async (req, res) => {
+    if (req.body.type === 'url_verification') {
+        return res.status(200).send(req.body.challenge);
+    }
+
     try {
         await handleSlackEvents(req, res);
     } catch (error) {
@@ -22,6 +26,7 @@ app.post('/slack/events', async (req, res) => {
         res.status(500).send('Internal server error.');
     }
 });
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
