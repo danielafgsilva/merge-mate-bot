@@ -1,4 +1,4 @@
-require("dotenv").config();
+require('dotenv').config();
 const { App } = require("@slack/bolt");
 const axios = require("axios");
 const crypto = require("crypto");
