@@ -26,6 +26,7 @@ const handleSlackEvents = async (req, res) => {
 // 🚀 Tratamento de comandos do Slack
 const handleSlackCommands = async (req, res) => {
   const { command, text, user_id } = req.body;
+  console.log("📩 Slack Command Received:", req.body); // Debug
 
   res.json({
     response_type: "ephemeral",
@@ -140,24 +141,6 @@ slackApp.event("message", async ({ event, say, client }) => {
   } catch (error) {
     console.error("Error handling message event:", error);
     await say("An unexpected error occurred while processing your message.");
-  }
-});
-
-// 🚀 OAuth para instalação do app
-slackApp.get("/slack/oauth_redirect", async (req, res) => {
-  const code = req.query.code;
-  try {
-    const response = await slackApp.client.oauth.v2.access({
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
-      code,
-    });
-
-    console.log("OAuth success:", response);
-    res.send("Installation successful!");
-  } catch (error) {
-    console.error("OAuth error:", error);
-    res.status(500).send("Installation failed.");
   }
 });
 

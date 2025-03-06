@@ -27,6 +27,24 @@ app.post('/slack/events', async (req, res) => {
     }
 });
 
+app.get("/slack/oauth_redirect", async (req, res) => {
+    const code = req.query.code;
+    try {
+        const response = await slackApp.client.oauth.v2.access({
+            client_id: process.env.CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
+            code: code,
+        });
+
+        console.log("OAuth success:", response);
+        res.send("Installation successful!");
+    } catch (error) {
+        console.error("OAuth error:", error);
+        res.status(500).send("Installation failed.");
+    }
+});
+
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
