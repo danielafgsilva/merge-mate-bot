@@ -5,7 +5,7 @@ const { handleSlackEvents, handleSlackCommands, handleGitHubWebhook } = require(
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Slack Commands
 app.post('/slack/command', handleSlackCommands);

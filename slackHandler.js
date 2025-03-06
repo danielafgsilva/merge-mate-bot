@@ -5,7 +5,8 @@ const crypto = require("crypto");
 
 const slackApp = new App({
   token: process.env.BOT_TOKEN,
-  signingSecret: process.env.SIGNING_SECRET
+  signingSecret: process.env.SIGNING_SECRET,
+  receiver: App
 });
 
 (async () => {
